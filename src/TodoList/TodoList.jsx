@@ -1,28 +1,19 @@
-import TodoForm from "./TodoForm";
 import TodoItem from "./TodoItem";
-const TodoList = ({
-  handleDelete,
-  handleInputChange,
-  setNewTodo,
-  newTodo,
-  todos,
-  handlesUpdated,
-  handleSubmit,
-}) => {
+
+const TodoList = ({ todos, handleDelete, handlesUpdated }) => {
   return (
-    <div>
-      <TodoForm
-        handleInputChange={handleInputChange}
-        setNewTodo={setNewTodo}
-        newTodo={newTodo}
-        handleSubmit={handleSubmit}
-      />
-      <TodoItem
-        handleDelete={handleDelete}
-        handlesUpdated={handlesUpdated}
-        todos={todos}
-      />
-    </div>
+    <ul>
+      {todos.map(({ id, text, completed }) => (
+        <TodoItem
+          key={id}
+          id={id}
+          completed={completed}
+          text={text}
+          handleDelete={handleDelete}
+          handlesUpdated={handlesUpdated}
+        />
+      ))}
+    </ul>
   );
 };
 

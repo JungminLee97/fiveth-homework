@@ -1,5 +1,6 @@
 import { useState } from "react";
 import TodoList from "./TodoList";
+import TodoForm from "./TodoForm";
 const SAMPLE_TODOS = [
   { id: 1, text: "Buy milk", completed: false },
   { id: 2, text: "Clean the house", completed: false },
@@ -14,23 +15,14 @@ const SAMPLE_TODOS = [
 ];
 const TodoContainer = () => {
   const [todos, setTodos] = useState(SAMPLE_TODOS);
-  const [newTodo, setNewTodo] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!newTodo.trim()) {
-      return;
-    }
-    setTodos([
-      { id: crypto.randomUUID(), text: newTodo, completed: false },
-      ...todos,
-    ]);
-    setNewTodo("");
+  const addTodos = (text) => {
+    setTodos([{ id: crypto.randomUUID(), text, completed: false }, ...todos]);
   };
-  const handleInputChange = (event) => setNewTodo(event.target.value);
+
   const handlesUpdated = (id) => {
-    setTodos(
-      todos.map((todo) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) => {
         if (todo.id === id) {
           return { ...todo, completed: !todo.completed };
         }
@@ -40,24 +32,19 @@ const TodoContainer = () => {
   };
 
   const handleDelete = (id) => {
-    const deleted = setTodos(
-      todos.filter((todo) => {
-        return todo.id !== id;
-      })
-    );
-    return deleted;
+    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
   };
 
   return (
-    <TodoList
-      todos={todos}
-      setNewTodo={setNewTodo}
-      newTodo={newTodo}
-      handleDelete={handleDelete}
-      handleInputChange={handleInputChange}
-      handleSubmit={handleSubmit}
-      handlesUpdated={handlesUpdated}
-    />
+    <div>
+      <TodoForm addTodos={addTodos} />
+
+      <TodoList
+        todos={todos}
+        handleDelete={handleDelete}
+        handlesUpdated={handlesUpdated}
+      />
+    </div>
   );
 };
 

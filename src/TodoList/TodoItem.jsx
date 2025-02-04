@@ -1,28 +1,21 @@
-const TodoItem = ({ todos, handleDelete, handlesUpdated }) => {
+const TodoItem = ({ completed, text, id, handleDelete, handlesUpdated }) => {
   return (
-    <ul>
-      {todos.map((todo) => (
-        <li
-          key={todo.id}
-          style={{ textDecoration: todo.completed ? "line-through" : "none" }}
-        >
-          {todo.text}
-          <button
-            onClick={() => handlesUpdated(todo.id)}
-            style={{ width: 60, height: 20 }}
-          >
-            {todo.completed ? "완료" : "미완료"}
-          </button>
-          <button
-            onClick={() => {
-              handleDelete(todo.id);
-            }}
-          >
-            삭제
-          </button>
-        </li>
-      ))}
-    </ul>
+    <li style={{ textDecoration: completed ? "line-through" : "none" }}>
+      {text}
+      <button
+        onClick={() => handlesUpdated(id)}
+        style={{ width: 60, height: 20 }}
+      >
+        {completed ? "완료" : "미완료"}
+      </button>
+      <button
+        onClick={() => {
+          handleDelete(id);
+        }}
+      >
+        삭제
+      </button>
+    </li>
   );
 };
 
